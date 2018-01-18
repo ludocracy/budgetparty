@@ -10,7 +10,6 @@ current_paragraph = {}
 teks_dict = {}
 for paragraph in html.split('<p'):
     text = re.search(r'(?<=>).+(?=<)', paragraph).group()
-
     if not in_correct_section:
         if re.search('United States Government', text):
             in_correct_section = True
@@ -25,7 +24,7 @@ for paragraph in html.split('<p'):
                 break
             code, text = text.split('&nbsp;&nbsp;')
             text = text.replace(' \\r\\n ', '')
-            code = code[1:-1]
+            code = code[1:-1].lower()
             if klass == 'PARAGRAPH1':
                 l = text.split('. ')
                 subject_code = l[0][:3].lower()
@@ -37,7 +36,6 @@ for paragraph in html.split('<p'):
                     'subject_code': subject_code
                 }
             elif klass == 'SUBPARAGRAPHA':
-
                 key = subject_code + current_paragraph['code'] + code
                 teks_dict[key] = current_paragraph['text'] + text
 
