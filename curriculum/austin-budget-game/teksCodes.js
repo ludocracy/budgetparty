@@ -41,19 +41,18 @@ const codes = parsedCodes.reduce((normalizedCodes, code) => {
 }, [])
 
 const reduceCode2Descr = (descr, code) => {
-  console.log(code)
-  console.log(teksCodes[code])
   return descr += teksCodes[code] + '\n'
 }
 
+// get string combining all teks code descriptions
 const teksDescr = codes.reduce(reduceCode2Descr, '')
 
+const teksDiv = document.createElement('div');
+teksDiv.classList.add('hidden-teks-descr');
+
 const descrField = document.createElement('textarea');
-descrField.classList.add('hidden-teks-descr');
 descrField.setAttribute('readonly', 'true');
 descrField.innerText = teksDescr;
-const parentNode = document.querySelector('section.overview');
-parentNode.insertBefore(descrField, teksCodeSpan.nextSibling);
 
 // add copy-to-clipboard button
 const copyBtn = document.createElement('button');
@@ -62,9 +61,16 @@ copyBtn.addEventListener('click', event => {
   descrField.select();
   document.execCommand('copy');
 })
-parentNode.insertBefore(copyBtn, descrField.nextSibling);
-// hide
+teksDiv.appendChild(descrField);
+teksDiv.appendChild(copyBtn);
+const parentNode = document.querySelector('section.overview');
+parentNode.insertBefore(teksDiv, teksCodeSpan.nextSibling);
 
-// make teksCodeSpan clickable
-
-// when clicked unhide TEKS description field
+// make teksCodeSpan clickable to show/hide teks code div
+teksCodeSpan.addEventListener('click', event => {
+  if (teksDiv.classList.contains('hidden-teks-descr')) {
+    teksDiv.classList.remove('hidden-teks-descr');
+  } else {
+    teksDiv.classList.add('hidden-teks-descr');
+  }
+})
