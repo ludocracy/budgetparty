@@ -50,11 +50,19 @@ const teksDescr = codes.reduce(reduceCode2Descr, '')
 
 const descrField = document.createElement('textarea');
 descrField.classList.add('hidden-teks-descr');
+descrField.setAttribute('readonly', 'true');
 descrField.innerText = teksDescr;
 const parentNode = document.querySelector('section.overview');
 parentNode.insertBefore(descrField, teksCodeSpan.nextSibling);
 
 // add copy-to-clipboard button
+const copyBtn = document.createElement('button');
+copyBtn.innerText = 'copy to clipboard';
+copyBtn.addEventListener('click', event => {
+  descrField.select();
+  document.execCommand('copy');
+})
+parentNode.insertBefore(copyBtn, descrField.nextSibling);
 // hide
 
 // make teksCodeSpan clickable
