@@ -2,7 +2,8 @@ from urllib.request import urlopen
 import re
 import json
 
-url = "http://ritter.tea.state.tx.us/rules/tac/chapter113/ch113c.html"
+# url = "http://ritter.tea.state.tx.us/rules/tac/chapter113/ch113c.html"
+url = "http://ritter.tea.state.tx.us/rules/tac/chapter118/ch118a.html"
 html = str(urlopen(url).read())
 in_correct_section = False
 in_correct_subsection = False
@@ -10,10 +11,7 @@ current_paragraph = {}
 teks_dict = {}
 for paragraph in html.split('<p'):
     text = re.search(r'(?<=>).+(?=<)', paragraph).group()
-    if not in_correct_section:
-        if re.search('United States Government', text):
-            in_correct_section = True
-    elif not in_correct_subsection:
+    if not in_correct_subsection:
         if re.search('Knowledge and skills', text):
             in_correct_subsection = True
     else:
@@ -27,7 +25,7 @@ for paragraph in html.split('<p'):
             code = code[1:-1].lower()
             if klass == 'PARAGRAPH1':
                 l = text.split('. ')
-                subject_code = l[0][:3].lower()
+                subject_code = 'eco'
                 text = '. '.join(l[1:])
 
                 current_paragraph = {
